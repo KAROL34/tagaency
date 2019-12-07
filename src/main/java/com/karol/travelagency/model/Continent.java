@@ -14,6 +14,12 @@ import java.util.List;
 @Entity
 
 public class Continent {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+    private String name;
+    @OneToMany(mappedBy = "continent")
+    private List<Country> countries;
     public Continent(){}
 
     public Continent(String name, List<Country> countries) {
@@ -45,11 +51,6 @@ public class Continent {
         this.countries = countries;
     }
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Long id;
-    private String name;
-    @OneToMany(mappedBy = "continent")
-    private List<Country> countries;
+
 
 }

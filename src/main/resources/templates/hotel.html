@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${hotel.name}</title>
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/fonts/simple-line-icons.min.css}">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md fixed-top bg-light clean-navbar" style="height:64px;">
+        <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/all-hotels">Hotele</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/trips">Wycieczki</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Zaloguj</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/register">rejestracja</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="page">
+        <section class="clean-block features">
+            <div class="container">
+                <div class="block-heading">
+                    <div class="table-responsive">
+                        <table class="table">
+
+
+                            <thead>
+                            <tr>
+                                <th><span th:text="|Nazwa ${hotel.name}|"> Name </span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <td><span th:text="${'Opis: ' + hotel.description}"> Description </span></td>
+                            <td><span th:text=" ${'Miasto: '+hotel.city.name}"> City </span></td>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="page-footer dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Sign up</a></li>
+                        <li><a href="#">Downloads</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Company Information</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2018 Karol</p>
+        </div>
+    </footer>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/assets/js/jquery.min.js}"></script>
+    <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/script.min.js}"></script>
+</body>
+
+</html>

@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers( "/templates/js/**","/templates/css/**","/templates/fonts/**","/templates/images/**","/images/**","/js/**", "/css/**",  "/webjars/**");
+                .antMatchers( "/templates/js/**","/templates/css/**","/templates/fonts/**","/templates/images/**","/fonts/**","/images/**","/js/**", "/css/**",  "/webjars/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {

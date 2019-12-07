@@ -24,6 +24,11 @@ public class HotelController {
         this.cityService = cityService;
     }
 
+    @GetMapping("/all-hotels")
+    public String showAll(Model model) {
+        model.addAttribute("hoteles", hotelService.getAllHotels());
+        return "hotels";
+    }
 
     @GetMapping("/admin/add-hotel/{cityId}")
     public String addHotel(@PathVariable("cityId") Long cityId,
@@ -44,5 +49,11 @@ public class HotelController {
                                        Model model) {
         model.addAttribute("hotelsList", hotelService.findHotelsByCityId(cityId));
         return "hotel/list";
+    }
+    @GetMapping("/hotel/{hotelid}")
+    public String getHotelById(@PathVariable("hotelid") Long hotelid,
+                                       Model model) {
+        model.addAttribute("hotel", hotelService.getHotelById(hotelid));
+        return "hotel";
     }
 }

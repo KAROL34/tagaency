@@ -31,7 +31,9 @@ public class HotelService {
     public List<Hotel> getAllHotels() {
         return hotelRepository.findAll();
     }
-
+    public Hotel getHotelById(Long hoteId){
+        return hotelRepository.getOne(hoteId);
+    }
     public List<Hotel> findHotelsByCityId(Long cityId) {
         return hotelRepository.findAllByCity_Id(cityId);
     }
@@ -39,4 +41,6 @@ public class HotelService {
     public Hotel findByName(String name){
         return hotelRepository.findByNameContaining(name);
     }
+
+
 }

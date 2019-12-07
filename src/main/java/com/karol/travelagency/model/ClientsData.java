@@ -11,9 +11,19 @@ import javax.persistence.OneToOne;
 @Entity
 
 public class ClientsData {
-    public ClientsData(String firstName, String lastName, TripPurchase tripPurchase) {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    @OneToOne
+    private TripPurchase tripPurchase;
+
+    public ClientsData(String firstName, String lastName, String email, TripPurchase tripPurchase) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.tripPurchase = tripPurchase;
     }
 
@@ -53,11 +63,12 @@ public class ClientsData {
         this.tripPurchase = tripPurchase;
     }
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Long id;
-    private String firstName;
-    private String lastName;
-    @OneToOne
-    private TripPurchase tripPurchase;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

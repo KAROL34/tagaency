@@ -106,11 +106,11 @@ public class TripController {
         return "trip/search-result";
     }
 
-    @GetMapping("/trip/list")
+    @GetMapping("/trips")
     public String getAllTrips(Model model) {
-        model.addAttribute("pageForm", new PageForm());
-        model.addAttribute("tripsList", tripService.getAllTrips());
-        return "trip/list";
+
+        model.addAttribute("tripes", tripService.getAllTrips());
+        return "trips";
     }
 
     @PostMapping("/trip/list")

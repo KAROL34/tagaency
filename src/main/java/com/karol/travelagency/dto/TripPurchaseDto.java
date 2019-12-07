@@ -6,6 +6,14 @@ import org.springframework.stereotype.Component;
 @Component
 
 public class TripPurchaseDto {
+    private String purchaseId;
+    private String clientFirstName;
+    private String clientLastName;
+    private String adultsQuantity;
+    private String childrenQuantity;
+    private String adultsAvailable;
+    private String childrenAvailable;
+
     public TripPurchaseDto(){}
     public TripPurchaseDto(String purchaseId, String clientFirstName, String clientLastName, String adultsQuantity, String childrenQuantity, String adultsAvailable, String childrenAvailable) {
         this.purchaseId = purchaseId;
@@ -73,13 +81,7 @@ public class TripPurchaseDto {
         this.childrenAvailable = childrenAvailable;
     }
 
-    private String purchaseId;
-    private String clientFirstName;
-    private String clientLastName;
-    private String adultsQuantity;
-    private String childrenQuantity;
-    private String adultsAvailable;
-    private String childrenAvailable;
+
 
 
 }
