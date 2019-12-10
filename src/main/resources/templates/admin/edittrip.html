@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wycieczki</title>
+    <link rel="stylesheet" th:href="@{../assets/bootstrap/css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/..assets/fonts/simple-line-icons.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-light navbar-expand-md fixed-top bg-light clean-navbar" style="height:64px;">
+    <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/all-hotels">Hotele</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/trips">Wycieczki</a></li>
+
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Zaloguj</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+                </li>
+
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/register}">Rejestracja</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="page contact-us-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+
+                <form action="#" th:action="@{/students/update/{id}(id=${student.id})}" th:object="${student}"
+                      method="post">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="name" class="col-form-label">Name</label> <input type="text" th:field="*{name}"
+                                                                                         class="form-control" id="name"
+                                                                                         placeholder="Name"> <span
+                                th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                        </div>
+
+
+                        <h2 class="text-info">Edytuj wycieczka</h2>
+                    </div>
+                    <form action="#" method="post" th:action="@{/admin/edittrip/{id}(id=${editedTrip.id})}"
+                          th:object="${editedTrip}">
+                        <div class="form-group"><label><strong>Miasto-Wylot</strong></label>
+
+                            <select class="form-control" th:field="*{departureCity}" id="departureCity"
+                                    th:default="*{departureCity}">
+                                <optgroup label="Wylot">
+                                    <option th:each="city: ${cities}" th:text="${city.name}"
+                                            th:value="${city.id}"></option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group"><label><strong>Lotnisko-Wylot</strong></label>
+                            <select class="form-control" th:field="*{departureAirport}">
+                                <optgroup label="Lotnisko-Wylot">
+                                    <option th:each="airport: ${airports}" th:value="${airport.id}"
+                                            th:text="${airport.name}"
+                                            selected=""></option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="form-group"><label><strong>Miasto - Przylot</strong></label>
+
+                            <select class="form-control" th:field="*{arrivalCity}">
+                                <optgroup label="Przylot">
+                                    <option th:each="city: ${cities}" th:value="${city.id}" th:text="${city.name}"
+                                            selected=""></option>
+                                </optgroup>
+                            </select>
+
+                            <div class="form-group"><label><strong>Lotnisko-Wylot</strong></label>
+                                <select class="form-control" th:field="*{arrivalAirport}">
+                                    <optgroup label="Lotnisko-Wylot">
+                                        <option th:each="airport: ${airports}" th:value="${airport.id}"
+                                                th:text="${airport.name}" selected=""></option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label><strong>Hotel</strong></label>
+
+                            <select class="form-control" th:field="*{hotel}">
+                                <optgroup label="Hotel">
+                                    <option th:each="hotel: ${hotels}" th:value="${hotel.id}" th:text="${hotel.name}"
+                                            selected=""></option>
+                                </optgroup>
+                            </select>
+
+                        </div>
+                        <label><strong>Data Wylotu</strong></label>
+                        <input class="form-control" type="date" name="startDate"><label>
+                        <strong>Data Przylotu</strong></label>
+
+                        <input class="form-control" type="date" name="endDate">
+                        <label><strong>Liczba dni</strong></label>
+                        <input class="form-control" type="text" name="daysQuantity"><label><strong>Cena dorosły</strong><br></label>
+
+                        <div></div>
+                        <label><strong>Wyżywienie</strong><br></label>
+                        <select class="form-control" name="type">
+                            <optgroup label="This is a group">
+                                <option value="AI" selected="">All Inclusive</option>
+                                <option value="BB">Bed and Breakfast</option>
+                                <option value="HB">HB standard</option>
+                            </optgroup>
+                        </select>
+                        <label><strong>Cena dorosły</strong><br></label>
+                        <input class="form-control" type="text" name="adultPrice">
+                        <label><strong>Cena dziecko</strong><br></label>
+                        <input class="form-control" type="text" name="childPrice">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" th:field="*{isPromoted}"
+                                                       id="isPromoted">
+                            <label class="form-check-label" for="isPromoted">Promowana</label>
+                        </div>
+                        <label><strong>max ilośc dorosłych</strong><br></label>
+                        <input class="form-control" type="text" name="adultsQuantity">
+                        <label><strong>max ilośc dzieci</strong><br></label>
+                        <input class="form-control" type="text" name="childrenQuantity">
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit">Send</button>
+                        </div>
+                    </form>
+            </div>
+    </section>
+</main>
+<footer class="page-footer dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h5>Get started</h5>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Sign up</a></li>
+                    <li><a href="#">Downloads</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>About us</h5>
+                <ul>
+                    <li><a href="#">Company Information</a></li>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Reviews</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Help desk</a></li>
+                    <li><a href="#">Forums</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <p>© 2018 Karol</p>
+    </div>
+</footer>
+<script th:src="@{../js/main.js}"></script>
+<script th:src="@{../assets/js/jquery.min.js}"></script>
+<script th:src="@{../assets/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{../assets/js/script.min.js}"></script>
+</body>
+
+</html>

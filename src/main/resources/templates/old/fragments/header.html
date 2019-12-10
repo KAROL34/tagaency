@@ -1,0 +1,10 @@
+<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div class="inner">
+        <nav sec:authorize="isAuthenticated()" class="nav nav-masthead justify-content-end">
+            <a class="nav-link" th:text="#{navigation.newQuestion}" th:href="@{/new-question}"></a>
+            <a class="nav-link" th:text="#{navigation.latestQuestions}" th:href="@{/}"></a>
+            <a class="nav-link" th:text="#{navigation.myQuestions}" th:href="@{/my-questions}"></a>
+            <a class="nav-link" th:text="#{navigation.logout}" th:href="@{/logout}"></a>
+        </nav>
+    </div>
+</header>

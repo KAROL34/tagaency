@@ -1,5 +1,6 @@
 package com.karol.travelagency.security.service;
 
+import com.karol.travelagency.dto.UserForm;
 import com.karol.travelagency.security.model.Role;
 import com.karol.travelagency.security.model.User;
 import com.karol.travelagency.security.repository.RoleRepository;
@@ -29,11 +30,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserForm userForm) {
+        User user = new User();
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(roleRepository.findByNameEquals("ROLE_USER"));
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+
         user.setRoles(roleSet);
+        user.setEmail(userForm.getEmail());
         userRepository.save(user);
     }
 

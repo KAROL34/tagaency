@@ -4,39 +4,21 @@ package com.karol.travelagency.dto;
 
 
 public class TripDto {
-
-    private Long id;
-    private String departureCity;
-    public TripDto(){}
-    public TripDto(Long id, String departureCity, String departureAirport, String arrivalCity, String arrivalAirport, String hotel, String startDate, String endDate, Integer daysQuantity, String type, double adultPrice, double childPrice, String isPromoted, Integer adultsQuantity, Integer childrenQuantity) {
-        this.id = id;
-        this.departureCity = departureCity;
-        this.departureAirport = departureAirport;
-        this.arrivalCity = arrivalCity;
-        this.arrivalAirport = arrivalAirport;
-        this.hotel = hotel;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.daysQuantity = daysQuantity;
-        this.type = type;
-        this.adultPrice = adultPrice;
-        this.childPrice = childPrice;
-        this.isPromoted = isPromoted;
-        this.adultsQuantity = adultsQuantity;
-        this.childrenQuantity = childrenQuantity;
+    public TripDto() {
     }
-
-    private String departureAirport;
-    private String arrivalCity;
-    private String arrivalAirport;
-    private String hotel;
+    private Long id;
+    private Long departureCity;
+    private Long departureAirport;
+    private Long arrivalCity;
+    private Long arrivalAirport;
+    private Long hotel;
     private String startDate;
     private String endDate;
     private Integer daysQuantity;
     private String type;    //BB, HB, FB, AI
     private double adultPrice;
     private double childPrice;
-    private String isPromoted;
+    private boolean isPromoted;
     private Integer adultsQuantity;
     private Integer childrenQuantity;
 
@@ -48,43 +30,43 @@ public class TripDto {
         this.id = id;
     }
 
-    public String getDepartureCity() {
+    public Long getDepartureCity() {
         return departureCity;
     }
 
-    public void setDepartureCity(String departureCity) {
+    public void setDepartureCity(Long departureCity) {
         this.departureCity = departureCity;
     }
 
-    public String getDepartureAirport() {
+    public Long getDepartureAirport() {
         return departureAirport;
     }
 
-    public void setDepartureAirport(String departureAirport) {
+    public void setDepartureAirport(Long departureAirport) {
         this.departureAirport = departureAirport;
     }
 
-    public String getArrivalCity() {
+    public Long getArrivalCity() {
         return arrivalCity;
     }
 
-    public void setArrivalCity(String arrivalCity) {
+    public void setArrivalCity(Long arrivalCity) {
         this.arrivalCity = arrivalCity;
     }
 
-    public String getArrivalAirport() {
+    public Long getArrivalAirport() {
         return arrivalAirport;
     }
 
-    public void setArrivalAirport(String arrivalAirport) {
+    public void setArrivalAirport(Long arrivalAirport) {
         this.arrivalAirport = arrivalAirport;
     }
 
-    public String getHotel() {
+    public Long getHotel() {
         return hotel;
     }
 
-    public void setHotel(String hotel) {
+    public void setHotel(Long hotel) {
         this.hotel = hotel;
     }
 
@@ -136,12 +118,12 @@ public class TripDto {
         this.childPrice = childPrice;
     }
 
-    public String getIsPromoted() {
+    public boolean getIsPromoted() {
         return isPromoted;
     }
 
-    public void setIsPromoted(String isPromoted) {
-        this.isPromoted = isPromoted;
+    public void setIsPromoted(boolean promoted) {
+        isPromoted = promoted;
     }
 
     public Integer getAdultsQuantity() {
@@ -157,6 +139,24 @@ public class TripDto {
     }
 
     public void setChildrenQuantity(Integer childrenQuantity) {
+        this.childrenQuantity = childrenQuantity;
+    }
+
+    public TripDto(Long id, Long departureCity, Long departureAirport, Long arrivalCity, Long arrivalAirport, Long hotel, String startDate, String endDate, Integer daysQuantity, String type, double adultPrice, double childPrice, boolean isPromoted, Integer adultsQuantity, Integer childrenQuantity) {
+        this.id = id;
+        this.departureCity = departureCity;
+        this.departureAirport = departureAirport;
+        this.arrivalCity = arrivalCity;
+        this.arrivalAirport = arrivalAirport;
+        this.hotel = hotel;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.daysQuantity = daysQuantity;
+        this.type = type;
+        this.adultPrice = adultPrice;
+        this.childPrice = childPrice;
+        this.isPromoted = isPromoted;
+        this.adultsQuantity = adultsQuantity;
         this.childrenQuantity = childrenQuantity;
     }
 }

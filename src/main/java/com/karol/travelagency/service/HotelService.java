@@ -23,7 +23,7 @@ public class HotelService {
     }
 
     public Hotel addNewHotel(Long cityId, Hotel hotel){
-        Optional<City> foundCity = cityService.findCityById(cityId);
+        Optional<City> foundCity = Optional.ofNullable(cityService.findCityById(cityId));
         foundCity.ifPresent(hotel::setCity);
         return hotelRepository.save(hotel);
     }
@@ -43,4 +43,7 @@ public class HotelService {
     }
 
 
+    public Hotel findById(Long hotelID) {
+        return hotelRepository.getOne(hotelID);
+    }
 }

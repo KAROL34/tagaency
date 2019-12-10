@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th> Nazwa</th>
+        <th> Author</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${hotels.empty}">
+        <td colspan="2"> No Books Available</td>
+    </tr>
+    <tr th:each="hotel : ${hotels}">
+        <td><span th:text="${hotel.name}"> Nazwa </span></td>
+        <td><span th:text="${hotel.description}"> Opis </span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

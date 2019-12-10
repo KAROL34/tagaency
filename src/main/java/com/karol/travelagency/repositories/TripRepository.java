@@ -10,7 +10,8 @@ import java.util.List;
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
     List<Trip> findAllByArrivalCity_Country_Id(Long countryId);
-    List<Trip> findByIsPromotedLike(String isPromoted);
+
+    List<Trip> findByIsPromotedLike(boolean isPromoted);
     List<Trip> findAllByArrivalCity_Country_Continent_Id(Long continentId);
 
     List<Trip> findAllByDepartureCity_NameContaining(String value);

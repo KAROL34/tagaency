@@ -24,7 +24,7 @@ public class AirportService {
     }
 
     public void addNewAirport(Long cityId, Airport airport) {
-        Optional<City> foundCity = cityService.findCityById(cityId);
+        Optional<City> foundCity = (Optional<City>) Optional.ofNullable(cityService.findCityById(cityId));
         foundCity.ifPresent(airport::setCity);
         airportRepository.save(airport);
     }
@@ -39,5 +39,14 @@ public class AirportService {
 
     public Airport findByName(String name) {
         return airportRepository.findByNameContaining(name);
+    }
+
+    public Airport findAirportById(Long departureAirportID) {
+        return airportRepository.getOne(departureAirportID);
+    }
+
+    public Airport findById(Long departureAirportID) {
+        return airportRepository.getOne(departureAirportID);
+
     }
 }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="height:64px;">
+    <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/all-hotels">Hotele</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/trips">Wycieczki</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Zaloguj</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/register">rejestracja</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main class="page contact-us-page">
+    <section class="clean-block clean-form dark">
+        <div class="container">
+            <div class="block-heading">
+                <h2 class="text-info">Zarejestruj się!</h2>
+            </div>
+            <form th:object="${userForm}" method="post" action="/register">
+
+                <div class="form-group"><label>Imię</label><input id="firstname" th:field="*{firstName}"
+                                                                  class="form-control" type="text" required autofocus>
+                </div>
+                <div class="form-group"><label>Nazwisko</label><input id="lastname" th:field="*{lastName}"
+                                                                      class="form-control" type="text" required></div>
+                <div class="form-group"><label>Hasło</label><input id="password" th:field="*{password}"
+                                                                   class="form-control" type="text" required></div>
+                <div class="form-group"><label>Powrótrz</label><input id="reppassword" th:field="*{repPassword}"
+                                                                      class="form-control" type="text" required></div>
+                <div class="form-group"><label>Email</label><input id="email" th:field="*{email}" class="form-control"
+                                                                   type="text" required></div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+<footer class="page-footer dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h5>Get started</h5>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Sign up</a></li>
+                    <li><a href="#">Downloads</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>About us</h5>
+                <ul>
+                    <li><a href="#">Company Information</a></li>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Reviews</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Support</h5>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Help desk</a></li>
+                    <li><a href="#">Forums</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <h5>Legal</h5>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <p>© 2018 Copyright Text</p>
+    </div>
+</footer>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/script.min.js"></script>
+</body>
+
+</html>

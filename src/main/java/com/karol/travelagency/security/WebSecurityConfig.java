@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -56,14 +57,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
                 .authorizeRequests()
                 .antMatchers("/", "/login*", "/registration*","/register*", "/thank-you*", "/question/*").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login").and().headers().frameOptions().disable();
     }

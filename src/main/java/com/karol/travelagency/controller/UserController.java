@@ -1,6 +1,7 @@
 package com.karol.travelagency.controller;
 
 
+import com.karol.travelagency.dto.UserForm;
 import com.karol.travelagency.security.model.User;
 import com.karol.travelagency.security.service.UserService;
 import com.karol.travelagency.security.validator.UserValidator;
@@ -26,12 +27,12 @@ public class UserController {
 
     @GetMapping("/register")
     public String registerUser(Model model) {
-        model.addAttribute("userForm", new User());
+        model.addAttribute("userForm", new UserForm());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerUserPost(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String registerUserPost(@ModelAttribute("userForm") UserForm userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "register";
@@ -42,6 +43,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(Model model, String error, String logout) {
+
         if (error != null) {
             model.addAttribute("error", "Nieprawidłowa nazwa użytkownika lub hasło.");
         }
@@ -51,10 +53,10 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/admin/all-users")
+    @GetMapping("/admin/users")
     public String getAllUsers(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
-        return "user/all-users";
+        return "admin/users";
     }
 
 }

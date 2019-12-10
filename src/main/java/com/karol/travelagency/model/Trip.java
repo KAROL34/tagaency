@@ -1,7 +1,9 @@
 package com.karol.travelagency.model;
 
 
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,11 +35,14 @@ public class Trip {
     private String type;    //BB, HB, FB, AI
     private double adultPrice;
     private double childPrice;
-    private String isPromoted;
+    @Column(nullable = false)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isPromoted;
     private Integer adultsQuantity;
     private Integer childrenQuantity;
     public Trip(){}
-    public Trip(City departureCity, Airport departureAirport, City arrivalCity, Airport arrivalAirport, Hotel hotel, LocalDate startDate, LocalDate endDate, Integer daysQuantity, String type, double adultPrice, double childPrice, String isPromoted, Integer adultsQuantity, Integer childrenQuantity) {
+
+    public Trip(City departureCity, Airport departureAirport, City arrivalCity, Airport arrivalAirport, Hotel hotel, LocalDate startDate, LocalDate endDate, Integer daysQuantity, String type, double adultPrice, double childPrice, boolean isPromoted, Integer adultsQuantity, Integer childrenQuantity) {
         this.departureCity = departureCity;
         this.departureAirport = departureAirport;
         this.arrivalCity = arrivalCity;
@@ -150,11 +155,11 @@ public class Trip {
         this.childPrice = childPrice;
     }
 
-    public String getIsPromoted() {
+    public boolean getIsPromoted() {
         return isPromoted;
     }
 
-    public void setIsPromoted(String isPromoted) {
+    public void setIsPromoted(boolean isPromoted) {
         this.isPromoted = isPromoted;
     }
 

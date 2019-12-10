@@ -1,5 +1,6 @@
 package com.karol.travelagency.security.validator;
 
+import com.karol.travelagency.dto.UserForm;
 import com.karol.travelagency.security.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,21 +12,19 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return UserForm.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = (User) o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
-        if (user.getUsername().length() < 3 || user.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userForm.username");
+        UserForm user = (UserForm) o;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty");
+        if (user.getFirstName().length() < 3 || user.getFirstName().length() > 32) {
+            errors.rejectValue("firstName", "Size.userForm.firstName");
         }
         if (user.getPassword().length() < 5 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
-        if (!user.getConfirmPassword().equals(user.getPassword())) {
-            errors.rejectValue("confirmPassword", "Diff.userForm.confirmPassword");
-        }
+
     }
 }

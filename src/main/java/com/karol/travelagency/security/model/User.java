@@ -26,6 +26,16 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     public Long getId() {
         return id;
     }
@@ -42,13 +52,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
 
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -58,8 +62,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Transient
-    private String confirmPassword;
 
     @ManyToMany
     private Set<Role> roles;

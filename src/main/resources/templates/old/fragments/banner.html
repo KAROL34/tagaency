@@ -1,0 +1,8 @@
+<div sec:authorize="!isAuthenticated()" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:th="http://www.thymeleaf.org">
+    <h1 th:text="#{welcome.invitation}" class="cover-heading"></h1>
+    <p class="lead">
+        <a th:text="#{login.login}" th:href="@{/login}" class="btn btn-lg btn-secondary"></a>
+        <a th:text="#{registration.register}" th:href="@{/registration}" class="btn btn-lg btn-primary"></a>
+    </p>
+</div>

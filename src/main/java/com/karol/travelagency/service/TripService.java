@@ -57,8 +57,8 @@ public class TripService {
     }
 
     public List<Trip> getPromotedTrips() {
-        String isPromoted = "Tak";
-        return tripRepository.findByIsPromotedLike("Tak");
+        boolean isPromoted = true;
+        return tripRepository.findByIsPromotedLike(true);
     }
 
     public List<Trip> getTripsOrderedByStartDateDesc() {
@@ -79,11 +79,11 @@ public class TripService {
         } else {
             trip = getTripById(tripDto.getId()).get();
         }
-        trip.setDepartureCity(cityService.findCityByName(tripDto.getDepartureCity()));
-        trip.setDepartureAirport(airportService.findByName(tripDto.getDepartureAirport()));
-        trip.setArrivalCity(cityService.findCityByName(tripDto.getArrivalCity()));
-        trip.setArrivalAirport(airportService.findByName(tripDto.getArrivalAirport()));
-        trip.setHotel(hotelService.findByName(tripDto.getHotel()));
+        trip.setDepartureCity(cityService.findCityById(tripDto.getDepartureCity()));
+        trip.setDepartureAirport(airportService.findAirportById(tripDto.getDepartureAirport()));
+        trip.setArrivalCity(cityService.findCityById(tripDto.getArrivalCity()));
+        trip.setArrivalAirport(airportService.findById(tripDto.getArrivalAirport()));
+        trip.setHotel(hotelService.findById(tripDto.getHotel()));
         trip.setStartDate(LocalDate.parse(tripDto.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-d")));
         trip.setEndDate(LocalDate.parse(tripDto.getEndDate(), DateTimeFormatter.ofPattern("yyyy-MM-d")));
         trip.setDaysQuantity(tripDto.getDaysQuantity());
@@ -100,11 +100,11 @@ public class TripService {
     public TripDto createTripDtoFromTrip(Trip trip) {
         TripDto tripDto = new TripDto();
         tripDto.setId(trip.getId());
-        tripDto.setDepartureCity(trip.getDepartureCity().getName());
-        tripDto.setDepartureAirport(trip.getDepartureAirport().getName());
-        tripDto.setArrivalCity(trip.getArrivalCity().getName());
-        tripDto.setArrivalAirport(trip.getArrivalAirport().getName());
-        tripDto.setHotel(trip.getHotel().getName());
+        tripDto.setDepartureCity(trip.getDepartureCity().getId());
+        tripDto.setDepartureAirport(trip.getDepartureAirport().getId());
+        tripDto.setArrivalCity(trip.getArrivalCity().getId());
+        tripDto.setArrivalAirport(trip.getArrivalAirport().getId());
+        tripDto.setHotel(trip.getHotel().getId());
         tripDto.setStartDate(trip.getStartDate().toString());
         tripDto.setEndDate(trip.getEndDate().toString());
         tripDto.setDaysQuantity(trip.getDaysQuantity());

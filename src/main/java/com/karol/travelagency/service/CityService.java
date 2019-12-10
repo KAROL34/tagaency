@@ -39,8 +39,8 @@ public class CityService {
         return cityRepository.findAllByCountry_Id(countryId);
     }
 
-    public Optional<City> findCityById(Long id) {
-        return cityRepository.findById(id);
+    public City findCityById(Long id) {
+        return cityRepository.getOne(id);
     }
 
     public City findCityByName(String name) {

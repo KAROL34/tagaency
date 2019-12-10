@@ -43,22 +43,23 @@ public class TripController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/admin/add-trip")
+    @GetMapping("/admin/addtrip")
     public String addNewTrip(Model model) {
         model.addAttribute("newTrip", new TripDto());
         model.addAttribute("cities", cityService.getAllCities());
         model.addAttribute("airports", airportService.getAllAirports());
         model.addAttribute("hotels", hotelService.getAllHotels());
-        return "trip/add-trip";
+        return "admin/addtrip";
     }
 
-    @PostMapping("/admin/add-trip")
+    @PostMapping("/admin/addtrip")
     public String addNewTripPost(@ModelAttribute("newTrip") TripDto tripDto) {
         tripService.createTripFromDto(tripDto);
-        return "redirect:/trip/list";
+        return "redirect:/trips";
     }
 
-    @GetMapping("/admin/edit-trip/{tripId}")
+    
+    @GetMapping("/admin/edittrip/{tripId}")
     public String editTrip(@PathVariable("tripId") Long id, Model model) {
         Trip trip = tripService.getTripById(id).get();
         if (tripService.getTripById(id).isPresent()) {
@@ -67,9 +68,9 @@ public class TripController {
             model.addAttribute("cities", cityService.getAllCities());
             model.addAttribute("airports", airportService.getAllAirports());
             model.addAttribute("hotels", hotelService.getAllHotels());
-            return "trip/edit";
+            return "admin/edittrip";
         }
-        return "redirect:/admin/add-trip";
+        return "redirect:/admin/addtrip";
     }
 
     @PostMapping("/admin/edit-trip/{tripId}")
