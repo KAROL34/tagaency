@@ -41,7 +41,7 @@ public class TripPurchaseController {
     @GetMapping("/buy-a-trip/{tripId}")
     public String buyATrip(@PathVariable("tripId") Long tripId,
                            Model model) {
-        Trip trip = tripService.getTripById(tripId).get();
+        Trip trip = tripService.getTripById(tripId);
         TripPurchaseDto dto = new TripPurchaseDto();
 
         model.addAttribute("trip", trip);
@@ -57,7 +57,7 @@ public class TripPurchaseController {
     public String buyATripPost(@PathVariable("tripId") Long tripId,
                                @ModelAttribute("newTripPurchase") TripPurchaseDto tripPurchaseDto,
                                Model model, BindingResult bindingResult) {
-        Trip trip = tripService.getTripById(tripId).get();
+        Trip trip = tripService.getTripById(tripId);
         tripPurchaseValidator.validate(tripPurchaseDto, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", bindingResult);

@@ -36,7 +36,7 @@ public class TripPurchaseService {
     }
 
     public TripPurchase createPurchaseFromDto(Long tripId, TripPurchaseDto tripPurchaseDto) {
-        Optional<Trip> foundTrip = tripService.getTripById(tripId);
+        Optional<Trip> foundTrip = Optional.ofNullable(tripService.getTripById(tripId));
         TripPurchase tripPurchase = new TripPurchase();
         ClientsData clientsData = new ClientsData();
         clientsData.setFirstName(tripPurchaseDto.getClientFirstName());

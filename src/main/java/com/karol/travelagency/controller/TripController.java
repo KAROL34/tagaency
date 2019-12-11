@@ -6,6 +6,7 @@ import com.karol.travelagency.dto.SearchTrip;
 import com.karol.travelagency.dto.TripDto;
 import com.karol.travelagency.model.Trip;
 import com.karol.travelagency.model.TripPurchase;
+import com.karol.travelagency.repositories.TripRepository;
 import com.karol.travelagency.service.AirportService;
 import com.karol.travelagency.service.CityService;
 import com.karol.travelagency.service.HotelService;
@@ -13,13 +14,23 @@ import com.karol.travelagency.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -30,7 +41,7 @@ public class TripController {
     private CityService cityService;
     private AirportService airportService;
     private HotelService hotelService;
-
+    private TripRepository tripRepository;
 
     @Autowired
     public TripController(TripService tripService,
@@ -58,34 +69,32 @@ public class TripController {
         return "redirect:/trips";
     }
 
-    
     @GetMapping("/admin/edittrip/{tripId}")
     public String editTrip(@PathVariable("tripId") Long id, Model model) {
-        Trip trip = tripService.getTripById(id).get();
-        if (tripService.getTripById(id).isPresent()) {
+        Trip trip = tripService.getTripById(id);
+
+        model.addAttribute("trip", trip);
 //            TripDto editedTrip = tripService.createTripDtoFromTrip(trip);
-            model.addAttribute("editedTrip", tripService.createTripDtoFromTrip(trip));
+        //    model.addAttribute("editedTrip", tripService.createTripDtoFromTrip(trip));
             model.addAttribute("cities", cityService.getAllCities());
-            model.addAttribute("airports", airportService.getAllAirports());
+        model.addAttribute("airports", airportService.getAllAirports());
             model.addAttribute("hotels", hotelService.getAllHotels());
             return "admin/edittrip";
-        }
-        return "redirect:/admin/addtrip";
+
     }
 
     @PostMapping("/admin/edit-trip/{tripId}")
-    public String editTripPost(@PathVariable("tripId") Long id,
-                               @ModelAttribute("editedTrip") TripDto tripDto) {
+    public String editTripPost(@PathVariable("tripId") Long id, @ModelAttribute("trip") TripDto tripDto) {
         Trip trip = tripService.createTripFromDto(tripDto);
         trip.setId(id);
         tripService.addNewTrip(trip);
-        return "redirect:/trip/details/{tripId}";
+        return "redirect:/trips";
     }
 
     @GetMapping("/trip/details/{tripId}")
     public String showDetailsOfGivenTrip(@PathVariable("tripId") Long tripId,
                                          Model model) {
-        model.addAttribute("trip", tripService.getTripById(tripId).get());
+        model.addAttribute("trip", tripService.getTripById(tripId));
         model.addAttribute("newPurchase", new TripPurchase());
         return "trip/details";
     }

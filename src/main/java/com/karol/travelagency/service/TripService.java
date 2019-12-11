@@ -52,8 +52,8 @@ public class TripService {
         return getAllTripsToGivenCountry(countryId, pageable);
     }
 
-    public Optional<Trip> getTripById(Long id) {
-        return tripRepository.findById(id);
+    public Trip getTripById(Long id) {
+        return tripRepository.getOne(id);
     }
 
     public List<Trip> getPromotedTrips() {
@@ -77,7 +77,7 @@ public class TripService {
         if (tripDto.getId() == null) {
             trip = new Trip();
         } else {
-            trip = getTripById(tripDto.getId()).get();
+            trip = getTripById(tripDto.getId());
         }
         trip.setDepartureCity(cityService.findCityById(tripDto.getDepartureCity()));
         trip.setDepartureAirport(airportService.findAirportById(tripDto.getDepartureAirport()));
