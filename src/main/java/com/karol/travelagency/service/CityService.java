@@ -1,15 +1,14 @@
 package com.karol.travelagency.service;
 
+import com.karol.travelagency.dto.CityDto;
 import com.karol.travelagency.model.City;
 
-import com.karol.travelagency.model.Country;
 import com.karol.travelagency.repositories.CityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -25,10 +24,12 @@ public class CityService {
         this.countryService = countryService;
     }
 
-    public void addNewCity(Long countryId, City city) {
-        Optional<Country> foundCountry = countryService.getCountryById(countryId);
-        foundCountry.ifPresent(city::setCountry);
-        cityRepository.save(city);
+    public City addNewCity(CityDto cityDto) {
+        City city = new City();
+        city.setId(cityDto.getId());
+        city.setName(cityDto.getName());
+        city.setCountry(countryService.getCountryById(cityDto.getCountryId()));
+        return cityRepository.save(city);
     }
 
     public List<City> getAllCities() {

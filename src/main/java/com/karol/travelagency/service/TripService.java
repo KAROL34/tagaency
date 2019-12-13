@@ -2,26 +2,30 @@ package com.karol.travelagency.service;
 
 
 import com.karol.travelagency.dto.TripDto;
+import com.karol.travelagency.model.Country;
 import com.karol.travelagency.model.Trip;
+import com.karol.travelagency.repositories.CountryRepository;
 import com.karol.travelagency.repositories.TripRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 
 public class TripService {
 
     private final TripRepository tripRepository;
+    private final CountryRepository countryRepository;
 
-    public TripService(TripRepository tripRepository, CityService cityService, AirportService airportService, HotelService hotelService) {
+    public TripService(TripRepository tripRepository, CountryRepository countryRepository, CityService cityService, AirportService airportService, HotelService hotelService) {
         this.tripRepository = tripRepository;
+        this.countryRepository = countryRepository;
         this.cityService = cityService;
         this.airportService = airportService;
         this.hotelService = hotelService;
@@ -44,8 +48,15 @@ public class TripService {
         return tripRepository.findAll(pageable);
     }
 
+    public List<Trip> getAllTripsByCityId(Long cityId) {
+        return tripRepository.findAllByArrivalCity_Country_Id(cityId);
+    }
     public List<Trip> getAllTripsToGivenCountry(Long countryId) {
         return tripRepository.findAllByArrivalCity_Country_Id(countryId);
+    }
+
+    public List<Trip> getAllTripsByGivenHotelId(Long hotelId) {
+        return tripRepository.findAllByHotelId(hotelId);
     }
 
     public List<Trip> getAllTripsToGivenCountry(Long countryId, Pageable pageable) {
@@ -56,10 +67,15 @@ public class TripService {
         return tripRepository.getOne(id);
     }
 
+    public List<Trip> getAllCommingTrips(LocalDate localDate) {
+        localDate = LocalDate.now().minusDays(7);
+        return tripRepository.findAllByStartDateGreaterThan(localDate);
+    }
     public List<Trip> getPromotedTrips() {
         boolean isPromoted = true;
         return tripRepository.findByIsPromotedLike(true);
     }
+
 
     public List<Trip> getTripsOrderedByStartDateDesc() {
         List<Trip> trips = tripRepository.findAll();
@@ -79,6 +95,7 @@ public class TripService {
         } else {
             trip = getTripById(tripDto.getId());
         }
+        trip.setId(tripDto.getId());
         trip.setDepartureCity(cityService.findCityById(tripDto.getDepartureCity()));
         trip.setDepartureAirport(airportService.findAirportById(tripDto.getDepartureAirport()));
         trip.setArrivalCity(cityService.findCityById(tripDto.getArrivalCity()));
@@ -154,5 +171,14 @@ public class TripService {
         List<Trip> trips = tripRepository.findAll();
         trips.sort(Comparator.comparing(Trip::getStartDate));
         return trips;
+    }
+
+    public List<Trip> findAllByArrivalCity_Country_Continent_Id(Long continentId) {
+        return tripRepository.findAllByArrivalCity_Country_Continent_Id(continentId);
+    }
+
+
+    public List<Trip> findAllByArrivalCity_Country(Long countryId) {
+        return tripRepository.findAllByArrivalCity_Country_Id(countryId);
     }
 }

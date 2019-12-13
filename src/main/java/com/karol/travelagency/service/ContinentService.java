@@ -2,6 +2,7 @@ package com.karol.travelagency.service;
 
 
 import com.karol.travelagency.model.Continent;
+import com.karol.travelagency.model.Country;
 import com.karol.travelagency.repositories.ContinentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,4 +34,6 @@ public class ContinentService {
         continents.sort(Comparator.comparing(Continent::getName));
         return continents;
     }
+
+
 }

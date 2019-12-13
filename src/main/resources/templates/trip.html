@@ -1,17 +1,19 @@
 <!DOCTYPE html>
+
 <html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Brand</title>
+    <title>${hotel.name}</title>
     <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/assets/fonts/simple-line-icons.min.css}">
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="height:64px;">
+<nav class="navbar navbar-light navbar-expand-md fixed-top bg-light clean-navbar" style="height:64px;">
     <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
                 class="navbar-toggler-icon"></span></button>
@@ -27,29 +29,67 @@
         </div>
     </div>
 </nav>
-<main class="page contact-us-page">
-    <section class="clean-block clean-form dark">
+<main class="page">
+    <section class="clean-block features">
         <div class="container">
+            <h2 class="text-info" th:text="${trip.arrivalCity.name}"></h2>
             <div class="block-heading">
-                <h2 class="text-info">Zarejestruj się!</h2>
-            </div>
-            <form th:object="${userForm}" method="post" action="/register">
 
-                <div class="form-group"><label>Imię</label><input id="firstname" th:field="*{firstName}"
-                                                                  class="form-control" type="text" required autofocus>
-                </div>
-                <div class="form-group"><label>Nazwisko</label><input id="lastname" th:field="*{lastName}"
-                                                                      class="form-control" type="text" required></div>
-                <div class="form-group"><label>Hasło</label><input id="password" th:field="*{password}"
-                                                                   class="form-control" type="text" required></div>
-                <div class="form-group"><label>Powrótrz</label><input id="reppassword" th:field="*{repPassword}"
-                                                                      class="form-control" type="text" required></div>
-                <div class="form-group"><label>Email</label><input id="email" th:field="*{email}" class="form-control"
-                                                                   type="text" required></div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Send</button>
-                </div>
-            </form>
+
+                <span th:text="|Wycieczka do: ${trip.arrivalCity.name}|"> Miasto </span></th>
+                <br>
+                <span th:text="|Hotel: ${trip.hotel.name}|"> Hotel </span></th>
+                <br>
+                <span th:text="|Start: ${trip.startDate}|"> Standard </span>
+                <br>
+                <span th:text="|Ilośc dni: ${trip.daysQuantity}|"> Opis </span>
+                <br>
+                <span th:text="|Kraj: ${trip.arrivalCity.country.name}|"> Opis </span>
+                <br>
+                <span th:text="|Wylot ${trip.departureCity.name}|"> Opis </span>
+                <br>
+                <span th:text="|Lotnisko: ${trip.departureAirport.name}|"> Opis </span>
+
+
+            </div>
+            <h2 class="text-primary" th:text="|Wszystkie wycieczki do kraju: ${trip.arrivalCity.country.name}|"></h2>
+            <div class="table-responsive">
+                <table class="table">
+
+                    <thead>
+                    <tr>
+                        <th> Miasto wylotu</th>
+                        <th> Miasto przylotu</th>
+                        <th> Hotel</th>
+                        <th> Rozpoczęcie wycieczki</th>
+                        <th> Ilość dni</th>
+                        <th> Cena za dorosłego</th>
+                        <th> Cena za dziecko</th>
+                        <th> Ilość miejsc dla dorosłych</th>
+                        <th> Ilość miejsc dla dzieci</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${tripsbycountryid.empty}">
+                        <td colspan="2"> Brak Wycieczek</td>
+                    </tr>
+                    <tr th:each="trip : ${tripsbycountryid}">
+                        <td><span th:text="${trip.departureCity.name}"> </span></td>
+                        <td><span th:text="${trip.arrivalCity.name}">  </span></td>
+                        <td><span th:text="${trip.hotel.name}">  </span></td>
+                        <td><span th:text="${trip.startDate}">  </span></td>
+                        <td><span th:text="${trip.adultPrice}">  </span></td>
+                        <td><span th:text="${trip.childPrice}">  </span></td>
+                        <td><span th:text="${trip.adultsQuantity}">  </span></td>
+                        <td><span th:text="${trip.childrenQuantity}">  </span></td>
+                        <td><a th:href="@{${'/trip/'+trip.id}}"> Link </a></td>
+                    </tr>
+                    </tbody>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 </main>
@@ -91,9 +131,10 @@
         </div>
     </div>
     <div class="footer-copyright">
-        <p>© 2018 Copyright Text</p>
+        <p>© 2018 Karol</p>
     </div>
 </footer>
+
 <script th:src="@{/assets/js/jquery.min.js}"></script>
 <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/assets/js/script.min.js}"></script>

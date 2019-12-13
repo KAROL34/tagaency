@@ -1,8 +1,10 @@
 package com.karol.travelagency.controller;
 
+import com.karol.travelagency.dto.CityDto;
 import com.karol.travelagency.model.City;
 import com.karol.travelagency.service.CityService;
 
+import com.karol.travelagency.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,25 +19,29 @@ import java.util.List;
 public class CityController {
 
     private CityService cityService;
+    private CountryService countryService;
 
     @Autowired
-    public CityController(CityService cityService) {
+    public CityController(CityService cityService, CountryService countryService) {
         this.cityService = cityService;
+        this.countryService = countryService;
     }
 
-    @GetMapping("/admin/add-city/{countryId}")
-    public String addCity(@PathVariable("countryId") Long countryId,
-                          Model model){
-        model.addAttribute("newCity", new City());
-        return "city/add-city";
+    @GetMapping("/admin/addcity")
+    public String addCity(Model model) {
+        model.addAttribute("newCity", new CityDto());
+        model.addAttribute("countries", countryService.getAllCountries());
+        return "admin/addcity";
     }
 
-    @PostMapping("/admin/add-city/{countryId}")
-    public String addCityPost(@PathVariable("countryId") Long countryId,
-                              @ModelAttribute("newCity") City city) {
-        cityService.addNewCity(countryId, city);
-        return "redirect:/city/list/{countryId}";
+    @PostMapping("/admin/addcity")
+    public String addNewCity(@ModelAttribute("newCity") CityDto cityDto) {
+
+        cityService.addNewCity(cityDto);
+
+        return "redirect:/all-hotels";
     }
+
 
     @GetMapping("/city/list/{countryId}")
     public String getAllCitiesOfGivenCountry(@PathVariable("countryId") Long countryId,

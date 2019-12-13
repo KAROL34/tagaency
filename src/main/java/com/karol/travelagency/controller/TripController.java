@@ -6,31 +6,23 @@ import com.karol.travelagency.dto.SearchTrip;
 import com.karol.travelagency.dto.TripDto;
 import com.karol.travelagency.model.Trip;
 import com.karol.travelagency.model.TripPurchase;
-import com.karol.travelagency.repositories.TripRepository;
 import com.karol.travelagency.service.AirportService;
 import com.karol.travelagency.service.CityService;
+import com.karol.travelagency.service.ContinentService;
+import com.karol.travelagency.service.CountryService;
 import com.karol.travelagency.service.HotelService;
 import com.karol.travelagency.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -41,17 +33,19 @@ public class TripController {
     private CityService cityService;
     private AirportService airportService;
     private HotelService hotelService;
-    private TripRepository tripRepository;
-
+    private ContinentService continentService;
+    private CountryService countryService;
     @Autowired
     public TripController(TripService tripService,
                           CityService cityService,
                           AirportService airportService,
-                          HotelService hotelService) {
+                          HotelService hotelService, ContinentService continentService, CountryService countryService) {
         this.tripService = tripService;
         this.cityService = cityService;
         this.airportService = airportService;
         this.hotelService = hotelService;
+        this.continentService = continentService;
+        this.countryService = countryService;
     }
 
     @GetMapping("/admin/addtrip")
@@ -83,20 +77,22 @@ public class TripController {
 
     }
 
-    @PostMapping("/admin/edit-trip/{tripId}")
+    @PostMapping("/admin/edittrip/{tripId}")
     public String editTripPost(@PathVariable("tripId") Long id, @ModelAttribute("trip") TripDto tripDto) {
+        tripDto.setId(id);
         Trip trip = tripService.createTripFromDto(tripDto);
-        trip.setId(id);
         tripService.addNewTrip(trip);
         return "redirect:/trips";
     }
 
-    @GetMapping("/trip/details/{tripId}")
+    @GetMapping("/trip/{tripId}")
     public String showDetailsOfGivenTrip(@PathVariable("tripId") Long tripId,
                                          Model model) {
         model.addAttribute("trip", tripService.getTripById(tripId));
+
+        model.addAttribute("tripsbycountryid", tripService.getAllTripsToGivenCountry(tripId));
         model.addAttribute("newPurchase", new TripPurchase());
-        return "trip/details";
+        return "trip";
     }
 
     @GetMapping("/search")
@@ -121,6 +117,38 @@ public class TripController {
 
         model.addAttribute("tripes", tripService.getAllTrips());
         return "trips";
+    }
+
+    @GetMapping("/lastminute")
+    public String getAllCommingTrips(Model model) {
+
+        model.addAttribute("tripes", tripService.getAllCommingTrips(LocalDate.now().minusDays(7)));
+        return "indexlastminute";
+    }
+
+    @GetMapping("/promo")
+    public String getAllPromo(Model model) {
+
+        model.addAttribute("tripes", tripService.getPromotedTrips());
+        return "indexlastminute";
+    }
+
+    @GetMapping("/trips/continent/{continentId}")
+    public String getAllTripsByContinent(@PathVariable("continentId") Long continentId, Model model) {
+        model.addAttribute("continents", continentService.getAllContinentsSortedByName());
+        model.addAttribute("tripes", tripService.getAllTrips());
+        model.addAttribute("tripsbycontinents", tripService.findAllByArrivalCity_Country_Continent_Id(continentId));
+        return "tripsc";
+    }
+
+    @GetMapping("/trips/continent/{continentId}/country/{countryId}")
+    public String getAllTripsByCountryAfterContinent(@PathVariable("continentId") Long continentId, @PathVariable("countryId") Long countryId, Model model) {
+        model.addAttribute("continents", continentService.getAllContinentsSortedByName());
+        model.addAttribute("countries", countryService.getAllCountriesSortedByName());
+        model.addAttribute("tripes", tripService.getAllTrips());
+        model.addAttribute("tripsbycontinents", tripService.findAllByArrivalCity_Country_Continent_Id(continentId));
+        model.addAttribute("tripsbycountryafterconinent", tripService.findAllByArrivalCity_Country(countryId));
+        return "tripsc";
     }
 
     @PostMapping("/trip/list")

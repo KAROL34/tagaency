@@ -1,6 +1,7 @@
 package com.karol.travelagency.service;
 
 
+import com.karol.travelagency.dto.HotelDto;
 import com.karol.travelagency.model.City;
 import com.karol.travelagency.model.Hotel;
 import com.karol.travelagency.repositories.HotelRepository;
@@ -45,5 +46,16 @@ public class HotelService {
 
     public Hotel findById(Long hotelID) {
         return hotelRepository.getOne(hotelID);
+    }
+
+    public Hotel addHotel(HotelDto hotelDto) {
+        Hotel hotel = new Hotel();
+
+        hotel.setId(hotelDto.getId());
+        hotel.setName(hotelDto.getName());
+        hotel.setCity(cityService.findCityById(hotelDto.getCityId()));
+        hotel.setStandard(hotelDto.getStandard());
+        hotel.setDescription(hotelDto.getDescription());
+        return hotelRepository.save(hotel);
     }
 }

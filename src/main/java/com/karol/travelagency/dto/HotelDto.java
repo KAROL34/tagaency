@@ -1,33 +1,21 @@
-package com.karol.travelagency.model;
+package com.karol.travelagency.dto;
 
+public class HotelDto {
+    public HotelDto() {
+    }
 
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-
-@Entity
-
-public class Hotel {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
     private Long id;
     private String name;
     private String standard;
     private String description;
-    @ManyToOne
-    private City city;
+    private Long cityId;
 
-    public Hotel() {
+    public HotelDto(Long id, String name, String standard, String description, Long cityId) {
         this.id = id;
         this.name = name;
         this.standard = standard;
         this.description = description;
-        this.city = city;
+        this.cityId = cityId;
     }
 
     public Long getId() {
@@ -62,11 +50,11 @@ public class Hotel {
         this.description = description;
     }
 
-    public City getCity() {
-        return city;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 }

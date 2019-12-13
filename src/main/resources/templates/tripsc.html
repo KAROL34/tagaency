@@ -13,7 +13,9 @@
 
 <body>
 <nav class="navbar navbar-light navbar-expand-md fixed-top bg-light clean-navbar" style="height:64px;">
-    <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
@@ -30,6 +32,51 @@
     <section class="clean-block features">
         <div class="container">
             <div class="block-heading">
+                <div class="btn-group">
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Kontyneny
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div th:each="continent: ${continents}">
+                            <a class="dropdown-item" th:href="@{${'/trips/continent/'+continent.id}}"
+                               th:text="${continent.name}" th:default="${continent.name}"></a>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Kraje
+
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div th:each="country: ${countries}">
+                            <a class="dropdown-item"
+                               th:href="@{${'/trips/continent/'+country.continent.id+'/country/'+country.id}}"
+                               th:text="${country.name}" th:default="${country.name}"></a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+                    document.getElementById("dropOperator").onchange = function () {
+                        if (this.selectedIndex !== 0) {
+                            window.location.href = this.value;
+                        }
+                    };
+                </script>
+
+                <script>
+                    document.getElementById("dropOperator1").onchange = function () {
+                        if (this.selectedIndex !== 0) {
+                            window.location.href = this.value;
+                        }
+                    };
+                </script>
+
                 <div class="table-responsive">
                     <table class="table">
 
@@ -48,10 +95,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:if="${tripes.empty}">
-                            <td colspan="2"> Brak Wycieczek </td>
-                        </tr>
-                        <tr th:each="trip : ${tripes}">
+
+                        <tr th:each="trip : ${tripsbycontinents}">
                             <td><span th:text="${trip.departureCity.name}"> </span></td>
                             <td><span th:text="${trip.arrivalCity.name}">  </span></td>
                             <td><span th:text="${trip.hotel.name}">  </span></td>
@@ -113,9 +158,13 @@
     </div>
 </footer>
 
+
 <script th:src="@{/assets/js/jquery.min.js}"></script>
 <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/assets/js/script.min.js}"></script>
 </body>
+
+</html>
+
 
 </html>

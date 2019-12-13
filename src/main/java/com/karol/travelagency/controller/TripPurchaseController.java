@@ -61,15 +61,15 @@ public class TripPurchaseController {
         tripPurchaseValidator.validate(tripPurchaseDto, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", bindingResult);
-            return "trip-purchase/buy";
+            return "buy";
         }
 
         TripPurchase purchase = tripPurchaseService.createPurchaseFromDto(tripId, tripPurchaseDto);
         model.addAttribute("purchaseId", purchase.getId());
-        return "redirect:/purchase/purchase-summary/" + purchase.getId();
+        return "redirect:purchase-summary/" + purchase.getId();
     }
 
-    @GetMapping("/purchase/purchase-summary/{purchaseId}")
+    @GetMapping("/purchase-summary/{purchaseId}")
     public String showYourPurchase(@PathVariable("purchaseId") Long purchaseId,
                                    Model model) {
         model.addAttribute("newTripPurchase", tripPurchaseService.getTripPurchaseById(purchaseId).get());

@@ -7,6 +7,7 @@ import com.karol.travelagency.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,16 @@ public class CountryService {
         return countryRepository.findAllByContinent_Id(id);
     }
 
-    public Optional<Country> getCountryById(Long id) {
-        return countryRepository.findById(id);
+    public Country getCountryById(Long id) {
+        return countryRepository.getOne(id);
     }
+
+    public List<Country> getAllCountriesSortedByName() {
+        List<Country> countries = countryRepository.findAll();
+        countries.sort(Comparator.comparing(Country::getName));
+        return countries;
+    }
+
+
+
 }
