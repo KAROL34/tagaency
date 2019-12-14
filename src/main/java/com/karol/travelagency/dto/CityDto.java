@@ -1,5 +1,7 @@
 package com.karol.travelagency.dto;
 
+import java.util.Objects;
+
 public class CityDto {
     private Long id;
     private String name;
@@ -40,5 +42,27 @@ public class CityDto {
         this.countryId = countryId;
     }
 
+    @Override
+    public String toString() {
+        return "CityDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", countryId=" + countryId +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CityDto cityDto = (CityDto) o;
+        return id.equals(cityDto.id) &&
+                name.equals(cityDto.name) &&
+                countryId.equals(cityDto.countryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, countryId);
+    }
 }

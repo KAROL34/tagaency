@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.naming.directory.SearchResult;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -96,27 +99,28 @@ public class TripController {
     }
 
     @GetMapping("/search")
-    public String searchATrip(Model model) {
-        model.addAttribute("searchedTrip", new SearchTrip());
-        return "trip/search";
+    public String searchATrip(SearchTrip searchedTrip, Model model) {
+        model.addAttribute("searchedTrip", searchedTrip);
+        model.addAttribute("foundTrips", tripService.findATrip(searchedTrip));
+        return "trips";
     }
 
-    @PostMapping("/search")
-    public String searchATrip(@ModelAttribute("searchedTrip") SearchTrip searchTrip,
-                              Model model) {
-
-        String param = searchTrip.getParam();
-        String value = searchTrip.getValue();
-        model.addAttribute("foundTrips", tripService.findATrip(param, value));
-
-        return "trip/search-result";
-    }
+//    @PostMapping("/search")
+//    public String searchATrip(@ModelAttribute("searchedTrip") SearchTrip searchTrip,
+//                              Model model) {
+//
+//        String param = searchTrip.getParam();
+//        String value = searchTrip.getValue();
+//        model.addAttribute("foundTrips", tripService.findATrip(param, value));
+//
+//        return "trips";
+//    }
 
     @GetMapping("/trips")
     public String getAllTrips(Model model) {
 
         model.addAttribute("tripes", tripService.getAllTrips());
-        return "trips";
+        return "tripsc";
     }
 
     @GetMapping("/lastminute")
@@ -136,6 +140,7 @@ public class TripController {
     @GetMapping("/trips/continent/{continentId}")
     public String getAllTripsByContinent(@PathVariable("continentId") Long continentId, Model model) {
         model.addAttribute("continents", continentService.getAllContinentsSortedByName());
+        model.addAttribute("countries", countryService.getAllCountriesSortedByName());
         model.addAttribute("tripes", tripService.getAllTrips());
         model.addAttribute("tripsbycontinents", tripService.findAllByArrivalCity_Country_Continent_Id(continentId));
         return "tripsc";

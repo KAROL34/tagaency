@@ -1,5 +1,7 @@
 package com.karol.travelagency.dto;
 
+import java.util.Objects;
+
 public class HotelDto {
     public HotelDto() {
     }
@@ -56,5 +58,33 @@ public class HotelDto {
 
     public void setCityId(Long cityId) {
         this.cityId = cityId;
+    }
+
+    @Override
+    public String toString() {
+        return "HotelDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", standard='" + standard + '\'' +
+                ", description='" + description + '\'' +
+                ", cityId=" + cityId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HotelDto hotelDto = (HotelDto) o;
+        return id.equals(hotelDto.id) &&
+                name.equals(hotelDto.name) &&
+                standard.equals(hotelDto.standard) &&
+                description.equals(hotelDto.description) &&
+                cityId.equals(hotelDto.cityId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, standard, description, cityId);
     }
 }

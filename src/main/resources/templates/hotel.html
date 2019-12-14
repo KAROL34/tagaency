@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
     <meta charset="utf-8">
@@ -12,21 +13,46 @@
     <link rel="stylesheet" th:href="@{/assets/fonts/simple-line-icons.min.css}">
 </head>
 
-<body>
-    <nav class="navbar navbar-light navbar-expand-md fixed-top bg-light clean-navbar" style="height:64px;">
-        <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/all-hotels">Hotele</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/trips">Wycieczki</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/login">Zaloguj</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/register">rejestracja</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="height:64px;">
+    <div class="container"><a class="navbar-brand logo" href="#">Karol-Travel</a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/all-hotels">Hotele</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="/trips">Wycieczki</a></li>
+
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Zaloguj</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+                </li>
+
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/register}">Rejestracja</a>
+
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Strony Admina
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/admin/users}">Lista użytkowników</a>
+                        <a class="dropdown-item" th:href="@{/admin/addtrip}">Dodaj wycieczkę</a>
+                        <a class="dropdown-item" th:href="@{/admin/addhotel}">Dodaj Hotel</a>
+                        <a class="dropdown-item" th:href="@{/admin/addcity}">Dodaj Miasto</a>
+                        <a class="dropdown-item" th:href="@{/trips}">Lista wycieczek</a>
+
+                    </div>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
     <main class="page">
         <section class="clean-block features">
             <div class="container">

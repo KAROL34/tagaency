@@ -1,7 +1,7 @@
 package com.karol.travelagency.dto;
 
 
-
+import java.util.Objects;
 
 public class TripDto {
     public TripDto() {
@@ -158,5 +158,53 @@ public class TripDto {
         this.isPromoted = isPromoted;
         this.adultsQuantity = adultsQuantity;
         this.childrenQuantity = childrenQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "TripDto{" +
+                "id=" + id +
+                ", departureCity=" + departureCity +
+                ", departureAirport=" + departureAirport +
+                ", arrivalCity=" + arrivalCity +
+                ", arrivalAirport=" + arrivalAirport +
+                ", hotel=" + hotel +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", daysQuantity=" + daysQuantity +
+                ", type='" + type + '\'' +
+                ", adultPrice=" + adultPrice +
+                ", childPrice=" + childPrice +
+                ", isPromoted=" + isPromoted +
+                ", adultsQuantity=" + adultsQuantity +
+                ", childrenQuantity=" + childrenQuantity +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TripDto tripDto = (TripDto) o;
+        return Double.compare(tripDto.adultPrice, adultPrice) == 0 &&
+                Double.compare(tripDto.childPrice, childPrice) == 0 &&
+                isPromoted == tripDto.isPromoted &&
+                Objects.equals(id, tripDto.id) &&
+                Objects.equals(departureCity, tripDto.departureCity) &&
+                Objects.equals(departureAirport, tripDto.departureAirport) &&
+                Objects.equals(arrivalCity, tripDto.arrivalCity) &&
+                Objects.equals(arrivalAirport, tripDto.arrivalAirport) &&
+                Objects.equals(hotel, tripDto.hotel) &&
+                Objects.equals(startDate, tripDto.startDate) &&
+                Objects.equals(endDate, tripDto.endDate) &&
+                Objects.equals(daysQuantity, tripDto.daysQuantity) &&
+                Objects.equals(type, tripDto.type) &&
+                Objects.equals(adultsQuantity, tripDto.adultsQuantity) &&
+                Objects.equals(childrenQuantity, tripDto.childrenQuantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, departureCity, departureAirport, arrivalCity, arrivalAirport, hotel, startDate, endDate, daysQuantity, type, adultPrice, childPrice, isPromoted, adultsQuantity, childrenQuantity);
     }
 }

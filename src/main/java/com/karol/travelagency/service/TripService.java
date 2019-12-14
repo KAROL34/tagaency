@@ -1,6 +1,7 @@
 package com.karol.travelagency.service;
 
 
+import com.karol.travelagency.dto.SearchTrip;
 import com.karol.travelagency.dto.TripDto;
 import com.karol.travelagency.model.Country;
 import com.karol.travelagency.model.Trip;
@@ -10,9 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,6 +27,9 @@ public class TripService {
 
     private final TripRepository tripRepository;
     private final CountryRepository countryRepository;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     public TripService(TripRepository tripRepository, CountryRepository countryRepository, CityService cityService, AirportService airportService, HotelService hotelService) {
         this.tripRepository = tripRepository;
@@ -134,38 +142,58 @@ public class TripService {
         return tripDto;
     }
 
-    public List<Trip> findATrip(String parameter, String value) {
-        if (parameter.equals("departureCity")) {
-            return tripRepository.findAllByDepartureCity_NameContaining(value);
-        } else if (parameter.equals("departureAirport")) {
-            return tripRepository.findAllByDepartureAirport_NameContaining(value);
-        } else if (parameter.equals("arrivalCity")) {
-            return tripRepository.findAllByArrivalCity_NameContaining(value);
-        } else if (parameter.equals("arrivalAirport")) {
-            return tripRepository.findAllByArrivalAirport_NameContaining(value);
-        } else if (parameter.equals("hotel")) {
-            return tripRepository.findAllByHotel_NameContaining(value);
-        } else if (parameter.equals("startDate")) {
-            return tripRepository.findAllByStartDateContaining(LocalDate.parse(value,  DateTimeFormatter.ofPattern("yyyy-MM-d")));
-        } else if (parameter.equals("endDate")) {
-            return tripRepository.findAllByEndDateContaining(LocalDate.parse(value,  DateTimeFormatter.ofPattern("yyyy-MM-d")));
-        } else if (parameter.equals("daysQuantity")) {
-            return tripRepository.findAllByDaysQuantityEquals(Integer.valueOf(value));
-        } else if (parameter.equals("type")) {
-            return tripRepository.findAllByTypeEquals(value);
-        } else if (parameter.equals("adultPrice")) {
-            return tripRepository.findAllByAdultPriceIsLessThanEqual(Double.valueOf(value));
-        } else if (parameter.equals("childPrice")) {
-            return tripRepository.findAllByChildPriceIsLessThanEqual(Double.valueOf(value));
-        } else if (parameter.equals("isPromoted")) {
-            return tripRepository.findAllByIsPromotedContaining(value);
-        } else if (parameter.equals("adultsQuantity")) {
-            return tripRepository.findAllByAdultsQuantityGreaterThanEqual(Integer.valueOf(value));
-        } else if (parameter.equals("childrenQuantity")) {
-            return tripRepository.findAllByChildrenQuantityGreaterThanEqual(Integer.valueOf(value));
-        } else
-            return null;
+    public List<Trip> findATrip(SearchTrip trip) {
+        String query = "select t from Trip t";
+
+        List<String> fragments = new ArrayList<>();
+
+        if (trip.getDepartureCity() != null && !trip.getDepartureCity().isBlank()) {
+            fragments.add("  t.departureCity.name = 'Warszawa' ");
+            //return tripRepository.findAllByDepartureCity_NameContaining(trip.getDepartureCity());
+        }
+        if (trip.getArrivalCity() != null && !trip.getArrivalCity().isBlank()) {
+            fragments.add("  t.arrivalCity.name = 'Ateny' ");
+        }
+
+        if (!fragments.isEmpty()) {
+            query += " where " + String.join(" and ", fragments);
+        }
+
+        System.out.println(query);
+        return entityManager.createQuery(query).getResultList();
     }
+
+//        if (parameter.equals("departureCity")&&parameter!=null) {
+//            return tripRepository.findAllByDepartureCity_NameContaining(value);
+//        } else if (parameter.equals("departureAirport")&&parameter!=null) {
+//            return tripRepository.findAllByDepartureAirport_NameContaining(value);
+//        } else if (parameter.equals("arrivalCity")&&parameter!=null) {
+//            return tripRepository.findAllByArrivalCity_NameContaining(value);
+//        } else if (parameter.equals("arrivalAirport")&&parameter!=null) {
+//            return tripRepository.findAllByArrivalAirport_NameContaining(value);
+//        } else if (parameter.equals("hotel")&&parameter!=null) {
+//            return tripRepository.findAllByHotel_NameContaining(value);
+//        } else if (parameter.equals("startDate")&&parameter!=null) {
+//            return tripRepository.findAllByStartDateContaining(LocalDate.parse(value,  DateTimeFormatter.ofPattern("yyyy-MM-d")));
+//        } else if (parameter.equals("endDate")&&parameter!=null) {
+//            return tripRepository.findAllByEndDateContaining(LocalDate.parse(value,  DateTimeFormatter.ofPattern("yyyy-MM-d")));
+//        } else if (parameter.equals("daysQuantity")&&parameter!=null) {
+//            return tripRepository.findAllByDaysQuantityEquals(Integer.valueOf(value));
+//        } else if (parameter.equals("type")&&parameter!=null) {
+//            return tripRepository.findAllByTypeEquals(value);
+//        } else if (parameter.equals("adultPrice")&&parameter!=null) {
+//            return tripRepository.findAllByAdultPriceIsLessThanEqual(Double.valueOf(value));
+//        } else if (parameter.equals("childPrice")&&parameter!=null) {
+//            return tripRepository.findAllByChildPriceIsLessThanEqual(Double.valueOf(value));
+//        } else if (parameter.equals("isPromoted")&&parameter!=null) {
+//            return tripRepository.findAllByIsPromotedContaining(value);
+//        } else if (parameter.equals("adultsQuantity")&&parameter!=null) {
+//            return tripRepository.findAllByAdultsQuantityGreaterThanEqual(Integer.valueOf(value));
+//        } else if (parameter.equals("childrenQuantity")&&parameter!=null) {
+//            return tripRepository.findAllByChildrenQuantityGreaterThanEqual(Integer.valueOf(value));
+//        } else
+//            return null;
+
 
     public List<Trip> getTripsOrderedByStartDateAsc() {
         List<Trip> trips = tripRepository.findAll();

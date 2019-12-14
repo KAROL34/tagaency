@@ -24,38 +24,6 @@ public class City {
     @ManyToOne
     private Country country;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        City city = (City) o;
-        return id.equals(city.id) &&
-                name.equals(city.name) &&
-                country.equals(city.country) &&
-                airportList.equals(city.airportList) &&
-                hotelList.equals(city.hotelList) &&
-                departureTripList.equals(city.departureTripList) &&
-                arrivalTripList.equals(city.arrivalTripList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, country, airportList, hotelList, departureTripList, arrivalTripList);
-    }
-
-    @Override
-    public String toString() {
-        return "City{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", country=" + country +
-                ", airportList=" + airportList +
-                ", hotelList=" + hotelList +
-                ", departureTripList=" + departureTripList +
-                ", arrivalTripList=" + arrivalTripList +
-                '}';
-    }
-
     @OneToMany(mappedBy = "city")
     private List<Airport> airportList;
     @OneToMany(mappedBy = "city")
@@ -131,4 +99,29 @@ public class City {
     public void setCountry(Country country) {this.country=country;
     }
 
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country=" + country +
+
+
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return Objects.equals(id, city.id) &&
+                Objects.equals(name, city.name) &&
+                Objects.equals(country, city.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, country);
+    }
 }

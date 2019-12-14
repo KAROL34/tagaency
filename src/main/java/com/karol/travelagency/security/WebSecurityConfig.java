@@ -1,5 +1,6 @@
 package com.karol.travelagency.security;
 
+import com.karol.travelagency.security.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
                 .authorizeRequests()
                 .antMatchers("/", "/login*", "/registration*","/register*", "/thank-you*", "/question/*").permitAll()
-                .antMatchers("/admin/**").permitAll()
+                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")

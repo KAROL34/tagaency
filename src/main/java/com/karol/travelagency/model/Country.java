@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -54,5 +55,31 @@ public class Country {
 
     public void setCityList(List<City> cityList) {
         this.cityList = cityList;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", continent=" + continent.getName() +
+                ", cityList=" +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return Objects.equals(id, country.id) &&
+                Objects.equals(name, country.name) &&
+                Objects.equals(continent, country.continent) &&
+                Objects.equals(cityList, country.cityList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, continent, cityList);
     }
 }
