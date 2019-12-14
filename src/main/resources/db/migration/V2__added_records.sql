@@ -87,9 +87,6 @@ VALUES ('7', 'Lotnisko Wrocław', '8');
 INSERT INTO airport
 VALUES ('8', 'Port lotniczy Sydney', '10');
 
--- id - cena.dorosly - miejsca.dor - cena.dziecko - miejsca.dzie - il.dni - koniec.data - prom.- pocz.data - typ - lotn.przylot
--- miasto.przylot - lotn.odlot - miasto.odlot - hotel
-
 INSERT INTO trip
 VALUES ('1', '1899.99', '50', '1349.99', '35', '7', '2019-08-23', '1', '2019-12-16', 'BB', '2', '4', '1', '3', '3');
 INSERT INTO trip
