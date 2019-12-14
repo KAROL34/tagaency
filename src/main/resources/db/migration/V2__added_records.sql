@@ -100,16 +100,3 @@ INSERT INTO trip
 VALUES ('4', '5499.99', '40', '4899.99', '10', '14', '2019-12-29', '1', '2019-12-15', 'HB', '6', '9', '7', '8', '6');
 INSERT INTO trip
 VALUES ('5', '11999.99', '45', '8899.99', '25', '12', '2019-12-13', '1', '2019-12-01', 'BB', '8', '10', '7', '8', '7');
-
-# INSERT INTO role
-# VALUES ('1', 'ROLE_ADMIN');
-# INSERT INTO role
-# VALUES ('2', 'ROLE_USER');
-# INSERT INTO user
-# VALUES ('1', '$2a$10$HRKB9w5wdFq/j.G./U7Ns.IdL/tkRP3ldgMEJMhU210TItJTow6vy', 'karol');
-# INSERT INTO user_roles
-# VALUES ('1', '1');
-
--- INSERT INTO user VALUES ('1', 'karoladmin', 'admin123', 'admin123');
--- INSERT INTO role VALUES ('1', 'admin');
--- INSERT INTO user_role VALUES ('1', '1');
